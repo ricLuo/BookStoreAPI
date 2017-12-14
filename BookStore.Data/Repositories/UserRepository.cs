@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BookStore.Data.Common;
 using BookStore.Data.Infrastructure;
@@ -87,6 +88,8 @@ namespace BookStore.Data.Repositories
 
             return !addResult.Succeeded ? null : addResult;
         }
+
+       
     }
 
     public interface IUserRepository : IRepository<ApplicationUser>
@@ -99,5 +102,6 @@ namespace BookStore.Data.Repositories
         Task<IdentityResult> ChangePasswordAsync(string userId, string currentPassword, string newPassword);
         Task<IdentityResult> DeleteUserAsync(ApplicationUser user);
         Task<IdentityResult> AssignRolesToUser(string userId, params string[] roles);
+      //  ClaimsIdentity GenerateUserIdentityAsync(ApplicationUser manager);
     }
 }

@@ -1,12 +1,17 @@
 ﻿using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Routing;
 using BookStore.Data.Infrastructure;
 using BookStore.Data.Repositories;
 using BookStoreAPI.Infrastructure;
+using BookStoreAPI.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BookStoreAPI.Controllers
 {
+    //[RoutePrefix("api/token")]
     public class TokenController : ApiController
     {
         private ApplicationUserManager _applicationUserManager;
@@ -21,21 +26,18 @@ namespace BookStoreAPI.Controllers
             _userRepository = userRepository;
         }
 
-        // THis is naive endpoint for demo, it should use Basic authentication to provide token or POST request
-        public async Task<IHttpActionResult> Get(string username, string password)
+        [Route("api/token")]
+        [HttpPost]
+        public async Task<IHttpActionResult> ValidateUserSendToken(LoginModel model)
         {
-              var user = await _userRepository.FindByUserAsync(username, password);
-             
-            //   return user.FirstName;
-
-            //var manager = await _applicationUserManager.FindAsync(username, password);
-            //return Ok(manager);
-            // Task.WaitAll(user);
+            var user = await _userRepository.FindByUserAsync(model.Username, model.Password);
+            var identity = _applicationUserManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie );
+           // user.Claims = identity.Claims;
             if (user == null)
             {
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
-            return Ok(JwtManager.GenerateToken(username));
+            return Ok(JwtManager.GenerateToken(user, identity));
         }
     }
 }

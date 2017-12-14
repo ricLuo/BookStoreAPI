@@ -91,6 +91,14 @@
     <Compile Include="Migrations\201712141651398_AddAuthorUrl.Designer.cs">
       <DependentUpon>201712141651398_AddAuthorUrl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712141703292_PagesToBook.cs" />
+    <Compile Include="Migrations\201712141703292_PagesToBook.Designer.cs">
+      <DependentUpon>201712141703292_PagesToBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712141705335_PublishingCompanyBookTable.cs" />
+    <Compile Include="Migrations\201712141705335_PublishingCompanyBookTable.Designer.cs">
+      <DependentUpon>201712141705335_PublishingCompanyBookTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BooksRepository.cs" />
@@ -117,6 +125,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712141651398_AddAuthorUrl.resx">
       <DependentUpon>201712141651398_AddAuthorUrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712141703292_PagesToBook.resx">
+      <DependentUpon>201712141703292_PagesToBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712141705335_PublishingCompanyBookTable.resx">
+      <DependentUpon>201712141705335_PublishingCompanyBookTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
