@@ -10,7 +10,7 @@ namespace BookStore.Data.Common
 { 
     public class BookStoreDbContext: IdentityDbContext<ApplicationUser>
     {
-        public BookStoreDbContext(): base("Name=BookStoreDbContext")
+        public BookStoreDbContext(): base("Name=BookStoreDbContext", throwIfV1Schema: false)
         {
             Configuration.LazyLoadingEnabled = false;
 

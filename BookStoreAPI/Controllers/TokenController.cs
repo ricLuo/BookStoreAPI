@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
+﻿using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BookStore.Data.Infrastructure;
@@ -27,18 +22,20 @@ namespace BookStoreAPI.Controllers
         }
 
         // THis is naive endpoint for demo, it should use Basic authentication to provide token or POST request
-        [AllowAnonymous]
-        public async Task<string> Get(string username, string password)
+        public async Task<IHttpActionResult> Get(string username, string password)
         {
-            var user = await _userRepository.FindByUserAsync(username, password);
+              var user = await _userRepository.FindByUserAsync(username, password);
+             
+            //   return user.FirstName;
 
+            //var manager = await _applicationUserManager.FindAsync(username, password);
+            //return Ok(manager);
+            // Task.WaitAll(user);
             if (user == null)
             {
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
-            return JwtManager.GenerateToken(username);
+            return Ok(JwtManager.GenerateToken(username));
         }
-
-        
     }
 }

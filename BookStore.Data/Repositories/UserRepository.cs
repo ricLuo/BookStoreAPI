@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Data.Common;
 using BookStore.Data.Infrastructure;
@@ -10,12 +7,13 @@ using Microsoft.AspNet.Identity;
 
 namespace BookStore.Data.Repositories
 {
-   public class UserRepository: Repository<ApplicationUser>, IUserRepository
+    public class UserRepository : Repository<ApplicationUser>, IUserRepository
     {
-        private readonly ApplicationUserManager _appUserManager ;
-        private readonly ApplicationRoleManager _appRoleManager ;
+        private readonly ApplicationUserManager _appUserManager;
+        private readonly ApplicationRoleManager _appRoleManager;
 
-        public UserRepository(BookStoreDbContext context, ApplicationUserManager appUserManager, ApplicationRoleManager appRoleManager  ) : base(context)
+        public UserRepository(BookStoreDbContext context, ApplicationUserManager appUserManager,
+            ApplicationRoleManager appRoleManager) : base(context)
         {
             _appUserManager = appUserManager;
             _appRoleManager = appRoleManager;
@@ -23,13 +21,13 @@ namespace BookStore.Data.Repositories
 
         public async Task<ApplicationUser> GetUserByName(string username)
         {
-            var user = await _appUserManager.FindByNameAsync(username);
+            ApplicationUser user = await _appUserManager.FindByNameAsync(username);
             return user;
         }
 
         public async Task<ApplicationUser> FindByUserAsync(string username, string password)
         {
-            var user = await _appUserManager.FindAsync(username, password);
+            ApplicationUser user = await _appUserManager.FindAsync(username, password);
             return user;
         }
 
@@ -81,8 +79,8 @@ namespace BookStore.Data.Repositories
 
             if (!removeResult.Succeeded)
             {
-               // ModelState.AddModelError("", "Failed to remove user roles");
-               // return BadRequest(ModelState);
+                // ModelState.AddModelError("", "Failed to remove user roles");
+                // return BadRequest(ModelState);
             }
 
             var addResult = await _appUserManager.AddToRolesAsync(appUser.Id, roles);
@@ -91,7 +89,7 @@ namespace BookStore.Data.Repositories
         }
     }
 
-    public interface IUserRepository:IRepository<ApplicationUser>
+    public interface IUserRepository : IRepository<ApplicationUser>
     {
         Task<ApplicationUser> GetUserByName(string username);
         Task<ApplicationUser> FindByUserAsync(string username, string password);

@@ -3,6 +3,8 @@ using BookStore.Data.Common;
 using BookStore.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin;
+using Microsoft.AspNet.Identity.Owin;
 
 
 namespace BookStore.Data.Infrastructure
@@ -13,9 +15,9 @@ namespace BookStore.Data.Infrastructure
         {
         }
 
-        public static ApplicationUserManager Create(BookStoreDbContext context)
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var appDbContext = context;
+            var appDbContext = context.Get<BookStoreDbContext>();
 
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(appDbContext));
             // Configure validation logic for usernames
@@ -53,12 +55,12 @@ namespace BookStore.Data.Infrastructure
             });
             //   manager.EmailService = new EmailService();
             //  manager.SmsService = new SmsService();
-            //var dataProtectionProvider = options.DataProtectionProvider;
-            //if (dataProtectionProvider != null)
-            //{
-            //    manager.UserTokenProvider =
-            //        new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
-            //}
+            var dataProtectionProvider = options.DataProtectionProvider;
+            if (dataProtectionProvider != null)
+            {
+                manager.UserTokenProvider =
+                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+            }
             return manager;
         }
     }

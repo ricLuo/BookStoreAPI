@@ -1,6 +1,8 @@
 ﻿using BookStore.Data.Common;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin;
 
 
 namespace BookStore.Data.Infrastructure
@@ -12,9 +14,9 @@ namespace BookStore.Data.Infrastructure
         {
         }
 
-        public static ApplicationRoleManager Create(BookStoreDbContext context)
+        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
         {
-            var appDbContext = context;
+            var appDbContext = context.Get<BookStoreDbContext>();
 
             var appRoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(appDbContext));
 

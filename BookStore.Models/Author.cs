@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BookStore.Models.Common;
 
 namespace BookStore.Models
@@ -17,6 +13,8 @@ namespace BookStore.Models
         [Required]
         [MaxLength(100)]
         public string LastName { get; set; }
+
+        public string WebSite { get; set; }
 
         public ICollection<Book> Books { get; set; }
     }
