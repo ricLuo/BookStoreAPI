@@ -35,7 +35,11 @@ namespace BookStoreAPI.Infrastructure
             var userClaims = identity.Claims.Where(c => c.Type == ClaimTypes.Role).ToList();
 
             var claims = userClaims.Select(claim => new Claim(claim.Type, claim.Value)).ToList();
-            claims.Add(new Claim( ClaimTypes.Name, username ));
+            claims.Add(new Claim( "userName", username ));
+            claims.Add(new Claim("lastName", user.LastName));
+            claims.Add(new Claim("firstName", user.FirstName));
+
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 //Subject = new ClaimsIdentity(new[]
