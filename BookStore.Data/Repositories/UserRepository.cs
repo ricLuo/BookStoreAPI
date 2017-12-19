@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BookStore.Data.Common;
@@ -12,6 +13,7 @@ namespace BookStore.Data.Repositories
     {
         private readonly ApplicationUserManager _appUserManager;
         private readonly ApplicationRoleManager _appRoleManager;
+        private readonly IUserRepository _userRepository;
 
         public UserRepository(BookStoreDbContext context, ApplicationUserManager appUserManager,
             ApplicationRoleManager appRoleManager) : base(context)
@@ -89,7 +91,11 @@ namespace BookStore.Data.Repositories
             return !addResult.Succeeded ? null : addResult;
         }
 
-       
+        public async Task<IList<string>> GetRolesAsync(string userId)
+        {
+            var result = await _appUserManager.GetRolesAsync(userId);
+            return result;
+        }
     }
 
     public interface IUserRepository : IRepository<ApplicationUser>
@@ -102,6 +108,8 @@ namespace BookStore.Data.Repositories
         Task<IdentityResult> ChangePasswordAsync(string userId, string currentPassword, string newPassword);
         Task<IdentityResult> DeleteUserAsync(ApplicationUser user);
         Task<IdentityResult> AssignRolesToUser(string userId, params string[] roles);
-      //  ClaimsIdentity GenerateUserIdentityAsync(ApplicationUser manager);
+        Task<IList<string>> GetRolesAsync(string userId);
+
+        //  ClaimsIdentity GenerateUserIdentityAsync(ApplicationUser manager);
     }
 }
