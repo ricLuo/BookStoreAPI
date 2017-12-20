@@ -64,19 +64,32 @@ namespace BookStoreAPI.Filters
             if (appUser == null) return null;
             var roles = await UserRepository.GetRolesAsync(appUser.Id);
             if (roles == null || !(jwTPrinciple.Identity is ClaimsIdentity identityTest)) return null;
-            var allowedRoles = Roles.Split(',');
-            var jwtRoles = identityTest.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
-            var rolesAreEqual = CompareRoles(roles.ToArray(), jwtRoles.ToArray());
-            if (!rolesAreEqual) return null;
+            if (!string.IsNullOrEmpty(Roles))
+            {
+                var allowedRoles = Roles.Split(',');
+                var jwtRoles = identityTest.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+                var rolesAreEqual = CompareRoles(roles.ToArray(), jwtRoles.ToArray());
+                if (!rolesAreEqual) return null;
 
-            var isAuthorized = allowedRoles.Intersect(jwtRoles);
-            IPrincipal user = isAuthorized.Any() ? new ClaimsPrincipal(jwTPrinciple.Identity) : null;
-            return user;
+                var isAuthorized = allowedRoles.Intersect(jwtRoles);
+                IPrincipal user = isAuthorized.Any() ? new ClaimsPrincipal(jwTPrinciple.Identity) : null;
+                return user;
+            }
+            else
+            {
+                var jwtRoles = identityTest.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+                var rolesAreEqual = CompareRoles(roles.ToArray(), jwtRoles.ToArray());
+                if (!rolesAreEqual) return null;
+                IPrincipal user = new ClaimsPrincipal(jwTPrinciple.Identity);
+
+                return user;
+            }
+           
         }
 
         private static bool CompareRoles(string[] dbRoles, string[] jwtRoles)
         {
-            return dbRoles.SequenceEqual(jwtRoles);
+            return dbRoles.All(jwtRoles.Contains);
         }
 
 
