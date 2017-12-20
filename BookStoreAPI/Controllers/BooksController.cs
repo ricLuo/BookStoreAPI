@@ -15,15 +15,11 @@ namespace BookStoreAPI.Controllers
     [RoutePrefix("api/books")]
     public class BooksController : BaseApiController
     {
-        private ApplicationUserManager _applicationUserManager;
-        private ApplicationRoleManager _applicationRoleManager;
         private readonly IBooksRepository _booksRepository;
 
         public BooksController(ApplicationUserManager appUserManager, ApplicationRoleManager appRoleManager,
             IBooksRepository booksRepository)
         {
-            _applicationRoleManager = appRoleManager;
-            _applicationUserManager = appUserManager;
             _booksRepository = booksRepository;
         }
 
@@ -67,7 +63,7 @@ namespace BookStoreAPI.Controllers
             var books = _booksRepository.GetAll().OrderBy(c => c.Title).ToList();
             var response = books.Any()
                 ? Request.CreateResponse(HttpStatusCode.OK, books)
-                : Request.CreateResponse(HttpStatusCode.NotFound, "No Categories Found");
+                : Request.CreateResponse(HttpStatusCode.NotFound, "No Books Found");
             return response;
         }
     }
