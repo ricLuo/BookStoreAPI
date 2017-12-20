@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using BookStore.Data.Common;
-using BookStore.Data.Infrastructure;
 using BookStore.Models;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Owin.Security.OAuth;
 
 
 namespace BookStoreAPI.Infrastructure

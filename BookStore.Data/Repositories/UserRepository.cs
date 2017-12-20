@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using BookStore.Data.Common;
 using BookStore.Data.Infrastructure;
@@ -13,7 +13,6 @@ namespace BookStore.Data.Repositories
     {
         private readonly ApplicationUserManager _appUserManager;
         private readonly ApplicationRoleManager _appRoleManager;
-        private readonly IUserRepository _userRepository;
 
         public UserRepository(BookStoreDbContext context, ApplicationUserManager appUserManager,
             ApplicationRoleManager appRoleManager) : base(context)
@@ -68,7 +67,7 @@ namespace BookStore.Data.Repositories
         {
             var appUser = await _appUserManager.FindByIdAsync(userId);
             var currentRoles = await _appUserManager.GetRolesAsync(userId);
-            var rolesNotExists = roles.Except(_appRoleManager.Roles.Select(x => x.Name)).ToArray();
+            var rolesNotExists = roles.Except(_appRoleManager.Roles.Select(x => x.Name), StringComparer.OrdinalIgnoreCase).ToArray();
 
             if (rolesNotExists.Any())
             {

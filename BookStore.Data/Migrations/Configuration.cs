@@ -1,10 +1,3 @@
-using System;
-using System.Linq;
-using BookStore.Data.Common;
-using BookStore.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-
 namespace BookStore.Data.Migrations
 {
     using System.Data.Entity.Migrations;

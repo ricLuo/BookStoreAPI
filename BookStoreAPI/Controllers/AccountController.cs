@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BookStore.Data.Infrastructure;
@@ -28,8 +24,7 @@ namespace BookStoreAPI.Controllers
             _userRepository = userRepository;
         }
 
-        //  [Authorize(Roles = "Admin")]
-        [JwtAuthentication]
+        [JwtAuthentication(Roles = "SuperAdmin,Admin")]
         [Route("create")]
         [HttpPost]
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)

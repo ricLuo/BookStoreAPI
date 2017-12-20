@@ -1,10 +1,7 @@
 ﻿using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using System.Web.Routing;
 using BookStore.Data.Infrastructure;
 using BookStore.Data.Repositories;
 using BookStoreAPI.Infrastructure;

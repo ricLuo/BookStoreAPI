@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BookStore.Data.Infrastructure;
@@ -18,7 +15,6 @@ namespace BookStoreAPI.Controllers
     public class RolesController : BaseApiController
     {
         private readonly ApplicationRoleManager _applicationRoleManager;
-        private ApplicationUserManager _applicationUserManager;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
 
@@ -27,7 +23,6 @@ namespace BookStoreAPI.Controllers
         {
             _applicationRoleManager = appRoleManager;
             _roleRepository = roleRepository;
-            _applicationUserManager = appUserManager;
             _userRepository = userRepository;
         }
 
@@ -95,7 +90,6 @@ namespace BookStoreAPI.Controllers
         [Route("user/{id:guid}", Name = "GetUserRoles")]
         public async Task<IHttpActionResult> GetUserRoles(string id)
         {
-            //Only SuperAdmin or Admin can delete users (Later when implement roles)
             var user = await _userRepository.GetRolesAsync(id);
             
             if (user != null && user.Any())

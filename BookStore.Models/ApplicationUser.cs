@@ -39,5 +39,7 @@ namespace BookStore.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+       
     }
 }
