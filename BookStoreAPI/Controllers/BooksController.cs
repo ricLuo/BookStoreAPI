@@ -59,5 +59,16 @@ namespace BookStoreAPI.Controllers
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError));
             }
         }
+
+        [HttpGet]
+        [Route("")]
+        public HttpResponseMessage GetAllBooks()
+        {
+            var books = _booksRepository.GetAll().OrderBy(c => c.Title).ToList();
+            var response = books.Any()
+                ? Request.CreateResponse(HttpStatusCode.OK, books)
+                : Request.CreateResponse(HttpStatusCode.NotFound, "No Categories Found");
+            return response;
+        }
     }
 }

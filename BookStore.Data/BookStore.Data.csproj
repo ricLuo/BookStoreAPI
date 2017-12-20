@@ -103,6 +103,18 @@
     <Compile Include="Migrations\201712201647458_AuthorName.Designer.cs">
       <DependentUpon>201712201647458_AuthorName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712201748022_RatingBooks.cs" />
+    <Compile Include="Migrations\201712201748022_RatingBooks.Designer.cs">
+      <DependentUpon>201712201748022_RatingBooks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712202018395_BooksChanges.cs" />
+    <Compile Include="Migrations\201712202018395_BooksChanges.Designer.cs">
+      <DependentUpon>201712202018395_BooksChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712202021106_BooksChangesTitle.cs" />
+    <Compile Include="Migrations\201712202021106_BooksChangesTitle.Designer.cs">
+      <DependentUpon>201712202021106_BooksChangesTitle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AuthorsRepository.cs" />
@@ -139,6 +151,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712201647458_AuthorName.resx">
       <DependentUpon>201712201647458_AuthorName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712201748022_RatingBooks.resx">
+      <DependentUpon>201712201748022_RatingBooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712202018395_BooksChanges.resx">
+      <DependentUpon>201712202018395_BooksChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712202021106_BooksChangesTitle.resx">
+      <DependentUpon>201712202021106_BooksChangesTitle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
