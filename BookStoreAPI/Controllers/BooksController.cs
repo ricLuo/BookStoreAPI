@@ -57,10 +57,24 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpGet]
-        [Route("")]
-        public HttpResponseMessage GetAllBooks()
+        [Route("{page:int?}")]
+        public HttpResponseMessage GetAllBooks(int? page=0)
         {
-            var books = _booksRepository.GetAll().OrderBy(c => c.Title).ToList();
+            int totalCount = 0;
+            int pageSize = 25;
+            int skip;
+            if (page != null)
+            {
+                 skip = page.Value * pageSize;
+            }
+            else
+            {
+                skip = 0;
+            }
+            IOrderedQueryable<Book> OrderBy(IQueryable<Book> queryable) => queryable.OrderBy(b => b.Title);
+
+
+            var books = _booksRepository.GetQueryableData(out totalCount, null, OrderBy, null, skip, 25);
             var response = books.Any()
                 ? Request.CreateResponse(HttpStatusCode.OK, books)
                 : Request.CreateResponse(HttpStatusCode.NotFound, "No Books Found");
