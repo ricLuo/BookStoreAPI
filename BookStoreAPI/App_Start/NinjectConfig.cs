@@ -15,6 +15,9 @@ namespace BookStoreAPI
             var kernel = new StandardKernel();
             //Create the bindings
             kernel.Bind<ICategoryRepository>().To<CategoryRepository>();
+            kernel.Bind<IAuthorsRepository>().To<AuthorsRepository>();
+            kernel.Bind<IBooksRepository>().To<BooksRepository>();
+
             kernel.Bind<IUserStore<ApplicationUser>>().To<UserStore<ApplicationUser>>();
             kernel.Bind<UserManager<ApplicationUser>>().ToSelf();
             kernel.Bind<IRoleStore<IdentityRole, string>>().To<RoleStore<IdentityRole>>();
