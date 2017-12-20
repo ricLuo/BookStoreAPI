@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -58,12 +59,12 @@ namespace BookStoreAPI.Controllers
 
         [HttpGet]
         [Route("{page:int?}")]
-        public HttpResponseMessage GetAllBooks(int? page=0)
+        public HttpResponseMessage GetAllBooks(int? page=0, string title="")
         {
             int totalCount = 0;
             int pageSize = 25;
             int skip;
-            if (page != null)
+            if (page.HasValue && page >1)
             {
                  skip = page.Value * pageSize;
             }
@@ -72,9 +73,9 @@ namespace BookStoreAPI.Controllers
                 skip = 0;
             }
             IOrderedQueryable<Book> OrderBy(IQueryable<Book> queryable) => queryable.OrderBy(b => b.Title);
+            Expression<Func<Book, bool>> filter = book => book.Title.Contains(title);
 
-
-            var books = _booksRepository.GetQueryableData(out totalCount, null, OrderBy, null, skip, 25);
+            var books = _booksRepository.GetQueryableData(out totalCount, filter, OrderBy, null, skip, 25);
             var response = books.Any()
                 ? Request.CreateResponse(HttpStatusCode.OK, books)
                 : Request.CreateResponse(HttpStatusCode.NotFound, "No Books Found");
