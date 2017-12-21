@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using BookStore.Data.Infrastructure;
+using System.Web.Http.Cors;
 using BookStore.Data.Repositories;
 using BookStore.Models;
 using BookStoreAPI.Filters;
@@ -14,21 +14,24 @@ namespace BookStoreAPI.Controllers
 {
     [JwtAuthentication(Roles = "SuperAdmin,Admin")]
     [RoutePrefix("api/books")]
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
+
     public class BooksController : BaseApiController
     {
         private readonly IBooksRepository _booksRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public BooksController(ApplicationUserManager appUserManager, ApplicationRoleManager appRoleManager,
-            IBooksRepository booksRepository)
+        public BooksController(IBooksRepository booksRepository, ICategoryRepository categoryRepository)
         {
             _booksRepository = booksRepository;
+            _categoryRepository = categoryRepository;
         }
 
         [HttpGet]
         [Route("{name}")]
-        public HttpResponseMessage GetCategoryByName(string title)
+        public HttpResponseMessage GetBookById(int id)
         {
-            var book = _booksRepository.GetBookByTitle(title);
+            var book = _booksRepository.GetById(id);
 
             var response = book != null
                 ? Request.CreateResponse(HttpStatusCode.OK, book)
@@ -47,9 +50,8 @@ namespace BookStoreAPI.Controllers
 
             try
             {
-                _booksRepository.Add(book);
-                _booksRepository.SaveChanges();
-                return Created(Request.RequestUri + "/" + book.Title, book);
+                _booksRepository.InsertBookWithCategory(book);
+                return Created(Request.RequestUri + "/" + book.Id, book);
             }
             catch (Exception)
             {
@@ -59,14 +61,14 @@ namespace BookStoreAPI.Controllers
 
         [HttpGet]
         [Route("{page:int?}")]
-        public HttpResponseMessage GetAllBooks(int? page=0, string title="")
+        public HttpResponseMessage GetAllBooks(int? page = 0, string title = "")
         {
             int totalCount = 0;
             int pageSize = 25;
             int skip;
-            if (page.HasValue && page >1)
+            if (page.HasValue && page > 1)
             {
-                 skip = page.Value * pageSize;
+                skip = page.Value * pageSize;
             }
             else
             {
@@ -75,7 +77,7 @@ namespace BookStoreAPI.Controllers
             IOrderedQueryable<Book> OrderBy(IQueryable<Book> queryable) => queryable.OrderBy(b => b.Title);
             Expression<Func<Book, bool>> filter = book => book.Title.Contains(title);
 
-            var books = _booksRepository.GetQueryableData(out totalCount, filter, OrderBy, null, skip, 25);
+            var books = _booksRepository.GetQueryableData(out totalCount, filter, OrderBy, "Categories", skip, 25);
             var response = books.Any()
                 ? Request.CreateResponse(HttpStatusCode.OK, books)
                 : Request.CreateResponse(HttpStatusCode.NotFound, "No Books Found");

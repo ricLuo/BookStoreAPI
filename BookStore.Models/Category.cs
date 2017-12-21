@@ -4,9 +4,12 @@ using Newtonsoft.Json;
 
 namespace BookStore.Models
 {
-   public class Category: AuditableEntity
+    public class Category : AuditableEntity
     {
         public string Name { get; set; }
+
+        [JsonIgnore]
+
         public string Description { get; set; }
 
         [JsonIgnore]
