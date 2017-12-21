@@ -21,7 +21,7 @@ namespace BookStore.Models
         public string Url { get; set; }
         public Author Author { get; set; }
         public int AuthorId { get; set; }
-        public DateTime PublishedDate { get; set; }
+        public DateTime? PublishedDate { get; set; }
         public int? Pages { get; set; }
         public string PublishingCompany { get; set; }
         public double Rating { get; set; }

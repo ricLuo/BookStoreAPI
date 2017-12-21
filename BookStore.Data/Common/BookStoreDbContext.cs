@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using BookStore.Models;
 using BookStore.Models.Common;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BookStore.Data.Common
@@ -59,22 +61,29 @@ namespace BookStore.Data.Common
             {
                 if (entry.Entity is IAuditableEntity entity)
                 {
-                    string identityName = Thread.CurrentPrincipal.Identity.Name;
-                    DateTime now = DateTime.Now;
-
-                    if (entry.State == System.Data.Entity.EntityState.Added)
+                    var currentClaims = (Thread.CurrentPrincipal as ClaimsPrincipal)?.Identities.FirstOrDefault()?.Claims;
+                    if (currentClaims != null)
                     {
-                        entity.CreatedBy = identityName;
-                        entity.CreatedDate = now;
-                    }
-                    else
-                    {
-                        base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
-                        base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
-                    }
+                        string identityName =
+                            currentClaims.FirstOrDefault(c => c.Type == "userName")
+                            ?.Value;
+                    
+                        DateTime now = DateTime.Now;
 
-                    entity.UpdatedBy = identityName;
-                    entity.UpdatedDate = now;
+                        if (entry.State == System.Data.Entity.EntityState.Added)
+                        {
+                            entity.CreatedBy = identityName;
+                            entity.CreatedDate = now;
+                        }
+                        else
+                        {
+                            base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
+                            base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
+                        }
+
+                        entity.UpdatedBy = identityName;
+                        entity.UpdatedDate = now;
+                    }
                 }
             }
 

@@ -50,6 +50,7 @@ namespace BookStoreAPI.Filters
                     actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, new {Message = "Invalid Token"});
 
             actionContext.RequestContext.Principal = principal;
+            //Thread.CurrentPrincipal.Identity.Name = principal.Identity.Name;
         }
 
 
@@ -73,6 +74,7 @@ namespace BookStoreAPI.Filters
 
                 var isAuthorized = allowedRoles.Intersect(jwtRoles);
                 IPrincipal user = isAuthorized.Any() ? new ClaimsPrincipal(jwTPrinciple.Identity) : null;
+                
                 return user;
             }
             else

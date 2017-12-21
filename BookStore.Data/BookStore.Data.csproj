@@ -115,6 +115,10 @@
     <Compile Include="Migrations\201712202021106_BooksChangesTitle.Designer.cs">
       <DependentUpon>201712202021106_BooksChangesTitle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712212021341_PublishedDateUpdated.cs" />
+    <Compile Include="Migrations\201712212021341_PublishedDateUpdated.Designer.cs">
+      <DependentUpon>201712212021341_PublishedDateUpdated.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AuthorsRepository.cs" />
@@ -160,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712202021106_BooksChangesTitle.resx">
       <DependentUpon>201712202021106_BooksChangesTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712212021341_PublishedDateUpdated.resx">
+      <DependentUpon>201712212021341_PublishedDateUpdated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
