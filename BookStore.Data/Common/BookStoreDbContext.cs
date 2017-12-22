@@ -59,7 +59,8 @@ namespace BookStore.Data.Common
 
             foreach (var entry in modifiedEntries)
             {
-                if (entry.Entity is IAuditableEntity entity)
+                var entity = entry.Entity as IAuditableEntity;
+                if (entity != null)
                 {
                     var currentClaims = (Thread.CurrentPrincipal as ClaimsPrincipal)?.Identities.FirstOrDefault()?.Claims;
                     if (currentClaims != null)
