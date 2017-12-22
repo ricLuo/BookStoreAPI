@@ -74,7 +74,7 @@ namespace BookStoreAPI.Controllers
             {
                 skip = 0;
             }
-            IOrderedQueryable<Book> OrderBy(IQueryable<Book> queryable) => queryable.OrderBy(b => b.Title);
+
             Expression<Func<Book, bool>> filter = book => book.Title.Contains(title);
 
             var books = _booksRepository.GetQueryableData(out totalCount, filter, OrderBy, "Categories", skip, 25);
@@ -82,6 +82,11 @@ namespace BookStoreAPI.Controllers
                 ? Request.CreateResponse(HttpStatusCode.OK, books)
                 : Request.CreateResponse(HttpStatusCode.NotFound, "No Books Found");
             return response;
+        }
+
+        private IOrderedQueryable<Book> OrderBy(IQueryable<Book> queryable)
+        {
+            return queryable.OrderBy(b => b.Title);
         }
     }
 }
