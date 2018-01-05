@@ -172,6 +172,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\OrderItemsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Filters\AddChallengeOnUnauthorizedResult.cs" />

@@ -130,6 +130,7 @@
     <Compile Include="Repositories\AuthorsRepository.cs" />
     <Compile Include="Repositories\BooksRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
