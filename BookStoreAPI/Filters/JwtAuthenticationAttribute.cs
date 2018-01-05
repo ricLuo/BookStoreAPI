@@ -14,7 +14,7 @@ using Ninject;
 
 namespace BookStoreAPI.Filters
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class JwtAuthenticationAttribute : AuthorizeAttribute
     {
         public new bool AllowMultiple => false;
@@ -71,7 +71,6 @@ namespace BookStoreAPI.Filters
                 var jwtRoles = identityTest.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
                 var rolesAreEqual = CompareRoles(roles.ToArray(), jwtRoles.ToArray());
                 if (!rolesAreEqual) return null;
-
                 var isAuthorized = allowedRoles.Intersect(jwtRoles);
                 IPrincipal user = isAuthorized.Any() ? new ClaimsPrincipal(jwTPrinciple.Identity) : null;
                 
@@ -83,7 +82,6 @@ namespace BookStoreAPI.Filters
                 var rolesAreEqual = CompareRoles(roles.ToArray(), jwtRoles.ToArray());
                 if (!rolesAreEqual) return null;
                 IPrincipal user = new ClaimsPrincipal(jwTPrinciple.Identity);
-
                 return user;
             }
            

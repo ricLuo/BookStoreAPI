@@ -26,5 +26,7 @@ namespace BookStore.Models
         public string PublishingCompany { get; set; }
         public double Rating { get; set; }
         public ICollection<Category> Categories { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
+
     }
 }
