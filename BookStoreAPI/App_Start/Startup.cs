@@ -16,16 +16,21 @@ namespace BookStoreAPI
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
+            var webApiConfiguration = new HttpConfiguration();
+            SwaggerConfig.Register(webApiConfiguration);
+
             app.CreatePerOwinContext(BookStoreDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
 
             Database.SetInitializer<BookStoreDbContext>(null);
 
-            var webApiConfiguration = new HttpConfiguration();
             WebApiConfig.Register(webApiConfiguration);
+
             app.UseNinjectMiddleware(NinjectConfig.CreateKernel);
             app.UseNinjectWebApi(webApiConfiguration);
+
+
         }
     }
 }

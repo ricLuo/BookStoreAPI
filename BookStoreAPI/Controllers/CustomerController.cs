@@ -12,22 +12,24 @@ using BookStoreAPI.Filters;
 
 namespace BookStoreAPI.Controllers
 {
-    [JwtAuthentication(Roles = "User,Admin")]
-    [RoutePrefix("api/orders")]
+    [JwtAuthentication(Roles = "User,SuperAdmin,Admin")]
+    [RoutePrefix("api/Customer")]
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
-    
-    public class OrdersController : BaseApiController
+
+    public class CustomerController : BaseApiController
     {
+        private readonly IUserRepository _userRepository;
         private readonly IOrdersRepository _ordersRepository;
 
-        public OrdersController(IOrdersRepository ordersRepository)
+        public CustomerController(IUserRepository userRepository, IOrdersRepository ordersRepository)
         {
+            _userRepository = userRepository;
             _ordersRepository = ordersRepository;
         }
 
         [HttpGet]
-        [Route("{page:int?}")]
-        public IHttpActionResult GetAllOrders(int? page = 0)
+        [Route("orders/{id:int?}/{page:int?}")]
+        public IHttpActionResult GetAllOrders(int id, int? page = 0)
         {
             int totalCount = 0;
             int pageSize = 25;
@@ -40,35 +42,20 @@ namespace BookStoreAPI.Controllers
             {
                 skip = 0;
             }
-            
 
-            var orders = _ordersRepository.GetQueryableData(out totalCount, null, OrderBy, "OrderItems, Customer", skip, 25);
+            Expression<Func<Order, bool>> filter = order => order.CustomerId == id.ToString();
+
+            var orders =
+                _ordersRepository.GetQueryableData(out totalCount, filter, OrderBy, "OrderItems, Customer", skip, 25);
             var response = orders.Any()
                 ? Request.CreateResponse(HttpStatusCode.OK, orders)
                 : Request.CreateResponse(HttpStatusCode.NotFound, "No Orders Found");
             return ResponseMessage(response);
         }
 
-        // GET: api/Orders/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/Orders
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/Orders/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        
         private static IOrderedQueryable<Order> OrderBy(IQueryable<Order> queryable)
         {
-            return queryable.OrderBy(o=>o.Id);
+            return queryable.OrderBy(o => o.Id);
         }
     }
 }

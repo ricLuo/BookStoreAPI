@@ -33,13 +33,9 @@ namespace BookStoreAPI.Controllers
             var user = await _userRepository.FindByUserAsync(model.Username, model.Password);
             if (user == null)
             {
-                //var response = new HttpResponseMessage();
-                //response.StatusCode = HttpStatusCode.Unauthorized;
                 return Content(HttpStatusCode.Unauthorized, "Invalid username or password");
             }
             var identity = _applicationUserManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
-            // user.Claims = identity.Claims;
-
             return Ok(JwtManager.GenerateToken(user, identity));
         }
     }
