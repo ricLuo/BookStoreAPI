@@ -31,13 +31,16 @@ namespace BookStoreAPI.Filters
             var authorization = request.Headers.Authorization;
 
             if (authorization == null || authorization.Scheme != "Bearer")
+            {
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest,
                     new {Message = "Missing JWT Token"});
-
+                return;
+            }
             if (string.IsNullOrEmpty(authorization.Parameter))
             {
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized,
                     new {Message = "Missing JWT Token"});
+                return;
             }
 
             var token = authorization.Parameter;
@@ -73,7 +76,7 @@ namespace BookStoreAPI.Filters
                 if (!rolesAreEqual) return null;
                 var isAuthorized = allowedRoles.Intersect(jwtRoles);
                 IPrincipal user = isAuthorized.Any() ? new ClaimsPrincipal(jwTPrinciple.Identity) : null;
-                
+
                 return user;
             }
             else
@@ -84,7 +87,6 @@ namespace BookStoreAPI.Filters
                 IPrincipal user = new ClaimsPrincipal(jwTPrinciple.Identity);
                 return user;
             }
-           
         }
 
         private static bool CompareRoles(string[] dbRoles, string[] jwtRoles)
