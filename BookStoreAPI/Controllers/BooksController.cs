@@ -16,7 +16,7 @@ namespace BookStoreAPI.Controllers
     [RoutePrefix("api/books")]
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
 
-    public class BooksController : BaseApiController
+    public class BooksController : ApiController
     {
         private readonly IBooksRepository _booksRepository;
         private readonly ICategoryRepository _categoryRepository;

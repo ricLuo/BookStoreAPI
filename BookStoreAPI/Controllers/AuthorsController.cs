@@ -12,7 +12,7 @@ namespace BookStoreAPI.Controllers
 {
     [JwtAuthentication]
     [RoutePrefix("api/authors")]
-    public class AuthorsController : BaseApiController
+    public class AuthorsController : ApiController
     {
         private ApplicationUserManager _applicationUserManager;
         private ApplicationRoleManager _applicationRoleManager;

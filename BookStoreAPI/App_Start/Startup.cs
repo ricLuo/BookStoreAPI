@@ -2,6 +2,7 @@
 using System.Web.Http;
 using BookStore.Data.Common;
 using BookStore.Data.Infrastructure;
+using BookStoreAPI.Extensions;
 using Owin;
 using Ninject.Web.Common.OwinHost;
 using Ninject.Web.WebApi.OwinHost;
@@ -17,20 +18,20 @@ namespace BookStoreAPI
         {
             // Configure the db context and user manager to use a single instance per request
             var webApiConfiguration = new HttpConfiguration();
-            SwaggerConfig.Register(webApiConfiguration);
+
+            webApiConfiguration.EnableSwagger();
+
+            WebApiConfig.Register(webApiConfiguration);
 
             app.CreatePerOwinContext(BookStoreDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
 
             Database.SetInitializer<BookStoreDbContext>(null);
-
-            WebApiConfig.Register(webApiConfiguration);
+           // SwaggerConfig.Register(webApiConfiguration);
 
             app.UseNinjectMiddleware(NinjectConfig.CreateKernel);
             app.UseNinjectWebApi(webApiConfiguration);
-
-
         }
     }
 }
