@@ -179,6 +179,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\OrderItemsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Extensions\SwaggerExtensions.cs" />
     <Compile Include="Filters\AddChallengeOnUnauthorizedResult.cs" />
