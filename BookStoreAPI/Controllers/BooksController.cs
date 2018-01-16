@@ -12,9 +12,9 @@ using BookStoreAPI.Filters;
 
 namespace BookStoreAPI.Controllers
 {
-    [JwtAuthentication(Roles = "SuperAdmin,Admin")]
+   // [JwtAuthentication(Roles = "SuperAdmin,Admin")]
     [RoutePrefix("api/books")]
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
 
     public class BooksController : ApiController
     {

@@ -11,9 +11,9 @@ using BookStoreAPI.Filters;
 
 namespace BookStoreAPI.Controllers
 {
-    [JwtAuthentication]
+   // [JwtAuthentication]
     [RoutePrefix("api/categories")]
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
 
     public class CategoryController : ApiController
     {

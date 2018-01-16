@@ -14,7 +14,7 @@ namespace BookStoreAPI.Controllers
 {
     [JwtAuthentication(Roles = "User,SuperAdmin,Admin")]
     [RoutePrefix("api/Customer")]
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
 
     public class CustomerController : ApiController
     {
@@ -31,7 +31,6 @@ namespace BookStoreAPI.Controllers
         [Route("orders/{id:int?}/{page:int?}")]
         public IHttpActionResult GetAllOrders(int id, int? page = 0)
         {
-            int totalCount = 0;
             int pageSize = 25;
             int skip;
             if (page.HasValue && page > 1)
@@ -46,10 +45,10 @@ namespace BookStoreAPI.Controllers
             Expression<Func<Order, bool>> filter = order => order.CustomerId == id.ToString();
 
             var orders =
-                _ordersRepository.GetQueryableData(out totalCount, filter, OrderBy, "OrderItems, Customer", skip, 25);
+                _ordersRepository.GetQueryableData(out _, filter, OrderBy, "OrderItems, Customer", skip, 25);
             var response = orders.Any()
                 ? Request.CreateResponse(HttpStatusCode.OK, orders)
-                : Request.CreateResponse(HttpStatusCode.NotFound, "No Orders Found");
+                : Request.CreateResponse(HttpStatusCode.NotFound, "No Orders Found for this Customer");
             return ResponseMessage(response);
         }
 

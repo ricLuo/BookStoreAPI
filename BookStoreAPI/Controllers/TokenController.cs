@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity;
 namespace BookStoreAPI.Controllers
 {
     //[RoutePrefix("api/token")]
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TokenController : ApiController
     {
         private ApplicationUserManager _applicationUserManager;

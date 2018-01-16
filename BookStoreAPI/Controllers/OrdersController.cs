@@ -14,7 +14,7 @@ namespace BookStoreAPI.Controllers
 {
     [JwtAuthentication(Roles = "User,Admin")]
     [RoutePrefix("api/orders")]
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     
     public class OrdersController : BaseApiController
     {
@@ -50,9 +50,34 @@ namespace BookStoreAPI.Controllers
         }
 
         // GET: api/Orders/5
-        public string Get(int id)
+        public string GetOrderById(int id)
         {
             return "value";
+        }
+
+        [HttpGet]
+        [Route("customer/{customerId:int}")]
+        public IHttpActionResult GetAllOrdersForCustomer(int customerId, int? page = 0 )
+        {
+            int totalCount = 0;
+            int pageSize = 25;
+            int skip;
+            if (page.HasValue && page > 1)
+            {
+                skip = page.Value * pageSize;
+            }
+            else
+            {
+                skip = 0;
+            }
+
+            Expression<Func<Order, bool>> filter = order => order.CustomerId == customerId.ToString();
+
+            var orders = _ordersRepository.GetQueryableData(out totalCount, filter, OrderBy, "OrderItems, Customer", skip, 25);
+            var response = orders.Any()
+                ? Request.CreateResponse(HttpStatusCode.OK, orders)
+                : Request.CreateResponse(HttpStatusCode.NotFound, "No Orders Found for this Customer");
+            return ResponseMessage(response);
         }
 
         // POST: api/Orders
@@ -68,7 +93,7 @@ namespace BookStoreAPI.Controllers
         
         private static IOrderedQueryable<Order> OrderBy(IQueryable<Order> queryable)
         {
-            return queryable.OrderBy(o=>o.Id);
+            return queryable.OrderByDescending(o=>o.CreatedDate);
         }
     }
 }
