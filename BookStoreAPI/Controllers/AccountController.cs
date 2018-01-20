@@ -24,7 +24,7 @@ namespace BookStoreAPI.Controllers
             _userRepository = userRepository;
         }
 
-        [JwtAuthentication(Roles = "SuperAdmin,Admin")]
+        //[JwtAuthentication(Roles = "SuperAdmin,Admin")]
         [Route("create")]
         [HttpPost]
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
