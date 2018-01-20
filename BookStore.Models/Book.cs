@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using BookStore.Models.Common;
+using Newtonsoft.Json;
 
 namespace BookStore.Models
 {
@@ -19,14 +20,18 @@ namespace BookStore.Models
         public string Edition { get; set; }
         public string Isbn { get; set; }
         public string Url { get; set; }
+
+        [JsonIgnore]
         public Author Author { get; set; }
+
         public int AuthorId { get; set; }
         public DateTime? PublishedDate { get; set; }
         public int? Pages { get; set; }
         public string PublishingCompany { get; set; }
         public double Rating { get; set; }
         public ICollection<Category> Categories { get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; }
 
+        [JsonIgnore]
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

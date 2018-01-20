@@ -86,7 +86,7 @@ namespace BookStoreAPI.Controllers
 
         private IOrderedQueryable<Book> OrderBy(IQueryable<Book> queryable)
         {
-            return queryable.OrderBy(b => b.Title);
+            return queryable.OrderByDescending(b => b.Rating);
         }
     }
 }

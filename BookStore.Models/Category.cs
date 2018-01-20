@@ -9,7 +9,6 @@ namespace BookStore.Models
         public string Name { get; set; }
 
         [JsonIgnore]
-
         public string Description { get; set; }
 
         [JsonIgnore]
