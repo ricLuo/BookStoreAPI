@@ -24,6 +24,7 @@ namespace BookStore.Models
         //[JsonIgnore]
         public Author Author { get; set; }
 
+        [JsonIgnore]
         public int AuthorId { get; set; }
         public DateTime? PublishedDate { get; set; }
         public int? Pages { get; set; }
