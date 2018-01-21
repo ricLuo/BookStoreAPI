@@ -21,7 +21,7 @@ namespace BookStore.Models
         public string Isbn { get; set; }
         public string Url { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public Author Author { get; set; }
 
         public int AuthorId { get; set; }

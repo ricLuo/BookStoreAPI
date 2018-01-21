@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -12,10 +13,9 @@ using BookStoreAPI.Filters;
 
 namespace BookStoreAPI.Controllers
 {
-   // [JwtAuthentication(Roles = "SuperAdmin,Admin")]
+    // [JwtAuthentication(Roles = "SuperAdmin,Admin")]
     [RoutePrefix("api/books")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-
     public class BooksController : ApiController
     {
         private readonly IBooksRepository _booksRepository;
@@ -77,12 +77,37 @@ namespace BookStoreAPI.Controllers
 
             Expression<Func<Book, bool>> filter = book => book.Title.Contains(title);
 
-            var books = _booksRepository.GetQueryableData(out totalCount, filter, OrderBy, "Categories", skip, 25);
+            var books = _booksRepository.GetQueryableData(out totalCount, filter, OrderBy, "Categories, Author", skip,
+                25);
             var response = books.Any()
                 ? Request.CreateResponse(HttpStatusCode.OK, books)
                 : Request.CreateResponse(HttpStatusCode.NotFound, "No Books Found");
             return response;
         }
+
+        [HttpGet]
+        [Route("category/{categoryid}/{page:int?}")]
+        public HttpResponseMessage GetAllBooksByCategory(int categoryId, int? page = 0)
+        {
+            int totalCount = 0;
+            int pageSize = 25;
+            int skip;
+            if (page.HasValue && page > 1)
+            {
+                skip = page.Value * pageSize;
+            }
+            else
+            {
+                skip = 0;
+            }
+
+            var books = _booksRepository.GetQueryable().Where(b => b.Categories.Any(c => c.Id == categoryId)).Include(b=>b.Author).OrderBy(o=>o.Title).Skip(skip).Take(25);
+            var response = books.Any()
+                ? Request.CreateResponse(HttpStatusCode.OK, books)
+                : Request.CreateResponse(HttpStatusCode.NotFound, "No Books Found");
+            return response;
+        }
+
 
         private IOrderedQueryable<Book> OrderBy(IQueryable<Book> queryable)
         {

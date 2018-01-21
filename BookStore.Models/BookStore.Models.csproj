@@ -62,6 +62,7 @@
     <Compile Include="Author.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="CategoryBook.cs" />
     <Compile Include="Common\AuditableEntity.cs" />
     <Compile Include="Common\Entity.cs" />
     <Compile Include="Common\IAuditableEntity.cs" />
