@@ -53,18 +53,39 @@ namespace BookStoreAPI.Tests
 
             //  BooksRepository repository = new BooksRepository( new BookStoreDbContext());
 
+            //using (BookStoreDbContext db = new BookStoreDbContext())
+            //{
+            //    var book = db.Books.FirstOrDefault(b => b.Id == 2333);
+            //    var category = db.Categories.FirstOrDefault(c => c.Id == 1);
+            //    if (category != null)
+            //    {
+            //        category.Books = new List<Book> {book};
+            //    }
+            //    db.SaveChanges();
+            //}
+
+
             using (BookStoreDbContext db = new BookStoreDbContext())
             {
-                var book = db.Books.FirstOrDefault(b => b.Id == 2333);
-                var category = db.Categories.FirstOrDefault(c => c.Id == 1);
-                if (category != null)
+                //var books = db.Books.OrderBy(b => Guid.NewGuid()).Take(5).ToList();
+                var books = db.Books.ToList();
+
+                foreach (var b in books)
                 {
-                    category.Books = new List<Book> {book};
+                    Random rnd = new Random();
+                    int randomCategoriesCount = rnd.Next(1, 5);
+                    var categories = db.Categories.OrderBy(c => Guid.NewGuid()).Take(randomCategoriesCount).ToList();
+                    b.Categories = new List<Category>();
+                    foreach (var c in categories)
+                    {
+                        b.Categories.Add(c);
+                        db.SaveChanges();
+                    }
+                    
                 }
-                db.SaveChanges();
             }
-            
-            
+
+
             ////  var books =  repository.GetAll().Take(2);
             // // var category = new CategoryRepository(new BookStoreDbContext()).GetAll().First();
             //  foreach (var b in books)
