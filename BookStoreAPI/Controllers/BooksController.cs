@@ -101,7 +101,8 @@ namespace BookStoreAPI.Controllers
                 skip = 0;
             }
 
-            var books = _booksRepository.GetQueryable().Where(b => b.Categories.Any(c => c.Id == categoryId)).Include(b=>b.Author).Include(b=>b.Categories).OrderBy(o=>o.Title).Skip(skip).Take(25);
+            var books = _booksRepository.GetQueryable().Where(b => b.Categories.Any(c => c.Id == categoryId))
+                .Include(b => b.Author).Include(b => b.Categories).OrderBy(o => Guid.NewGuid()).Skip(skip).Take(25);
             var response = books.Any()
                 ? Request.CreateResponse(HttpStatusCode.OK, books)
                 : Request.CreateResponse(HttpStatusCode.NotFound, "No Books Found");
