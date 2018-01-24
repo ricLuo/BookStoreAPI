@@ -12,7 +12,7 @@ using BookStoreAPI.Filters;
 
 namespace BookStoreAPI.Controllers
 {
-    [JwtAuthentication(Roles = "User,Admin")]
+    [JwtAuthentication(Roles = "User,Admin,SuperAdmin")]
     [RoutePrefix("api/orders")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     

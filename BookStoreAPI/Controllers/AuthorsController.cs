@@ -12,7 +12,6 @@ using BookStoreAPI.Filters;
 
 namespace BookStoreAPI.Controllers
 {
-    //[JwtAuthentication]
     [RoutePrefix("api/authors")]
     public class AuthorsController : ApiController
     {

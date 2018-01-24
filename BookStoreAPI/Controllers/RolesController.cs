@@ -11,7 +11,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace BookStoreAPI.Controllers
 {
     [RoutePrefix("api/roles")]
-    [JwtAuthentication]
     public class RolesController : BaseApiController
     {
         private readonly ApplicationRoleManager _applicationRoleManager;
@@ -48,6 +47,7 @@ namespace BookStoreAPI.Controllers
         }
 
         [Route("create")]
+        [JwtAuthentication(Roles = "SuperAdmin,Admin")]
         public async Task<IHttpActionResult> Create(CreateRoleBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -69,6 +69,7 @@ namespace BookStoreAPI.Controllers
 
         [Route("create/UserRoles")]
         [HttpPost]
+        [JwtAuthentication(Roles = "SuperAdmin,Admin")]
         public async Task<IHttpActionResult> AssignRolesToUser(CreateUserRolesBindingModel model)
         {
             if (!ModelState.IsValid)

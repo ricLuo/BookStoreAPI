@@ -21,27 +21,27 @@ namespace BookStoreAPI.Tests
         [TestMethod]
         public void GenerateRandomIdentityData()
         {
-            //UserRepository repository = new UserRepository(BookStoreDbContext.Create(),
-            //    new ApplicationUserManager(new UserStore<ApplicationUser>(new BookStoreDbContext())),
-            //    new ApplicationRoleManager(new RoleStore<IdentityRole>(new BookStoreDbContext())));
+            UserRepository repository = new UserRepository(BookStoreDbContext.Create(),
+                new ApplicationUserManager(new UserStore<ApplicationUser>(new BookStoreDbContext())),
+                new ApplicationRoleManager(new RoleStore<IdentityRole>(new BookStoreDbContext())));
 
-            //var personGenerator = new PersonNameGenerator();
-            //var randomNames = personGenerator.GenerateMultipleFirstAndLastNames(15);
+            var personGenerator = new PersonNameGenerator();
+            var randomNames = personGenerator.GenerateMultipleFirstAndLastNames(15);
 
 
-            //foreach (var n in randomNames)
-            //{
-            //    var names = n.Split(' ');
-            //    var user = new ApplicationUser()
-            //    {
-            //        UserName = names[0] + names[1] + "@gmail.com",
-            //        Email = names[0] + names[1] + "@gmail.com",
-            //        FirstName = names[0],
-            //        LastName = names[1],
-            //        DateOfBirth = RandomDay()
-            //    };
-            //    var addUserResult = repository.CreatUserAsync(user, "Reddy57!").Result;
-            //}
+            foreach (var n in randomNames)
+            {
+                var names = n.Split(' ');
+                var user = new ApplicationUser()
+                {
+                    UserName = names[0] + names[1] + "@gmail.com",
+                    Email = names[0] + names[1] + "@gmail.com",
+                    FirstName = names[0],
+                    LastName = names[1],
+                    DateOfBirth = RandomDay()
+                };
+                var addUserResult = repository.CreatUserAsync(user, "Reddy57!").Result;
+            }
 
             Assert.AreEqual(0, 0);
         }

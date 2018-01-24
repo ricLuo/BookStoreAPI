@@ -41,6 +41,7 @@ namespace BookStoreAPI.Controllers
 
         [HttpPost]
         [Route("")]
+        [JwtAuthentication(Roles = "SuperAdmin,Admin")]
         public IHttpActionResult SaveBook(Book book)
         {
             if (book == null && !ModelState.IsValid)

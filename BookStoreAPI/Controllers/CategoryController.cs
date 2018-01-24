@@ -54,6 +54,7 @@ namespace BookStoreAPI.Controllers
 
         [HttpPost]
         [Route("")]
+        [JwtAuthentication(Roles = "SuperAdmin,Admin")]
         public IHttpActionResult SaveCategory(Category category)
         {
             if (category == null && !ModelState.IsValid)
