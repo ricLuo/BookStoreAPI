@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Reflection;
 using BookStore.Data.Common;
 using BookStore.Data.Repositories;
 using BookStore.Models;
@@ -13,6 +14,8 @@ namespace BookStoreAPI
         public static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+
             //Create the bindings
             kernel.Bind<ICategoryRepository>().To<CategoryRepository>();
             kernel.Bind<IAuthorsRepository>().To<AuthorsRepository>();

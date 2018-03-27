@@ -76,6 +76,8 @@ namespace BookStoreAPI.Controllers
                 skip = 0;
             }
 
+            _booksRepository.GetQueryable().Where(b => b.Author.Name == "").ToList();
+
             Expression<Func<Book, bool>> filter = book => book.Title.Contains(title);
 
             var books = _booksRepository.GetQueryableData(out totalCount, filter, OrderBy, "Categories, Author", skip,

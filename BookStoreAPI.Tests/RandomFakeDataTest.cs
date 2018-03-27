@@ -46,7 +46,7 @@ namespace BookStoreAPI.Tests
             Assert.AreEqual(0, 0);
         }
 
-        [TestMethod]
+      //  [TestMethod]
         public void GenerateRandomBookCategoriesData()
         {
             // foreach book add up to 3 categories 
